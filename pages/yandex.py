@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 # -*- encoding=utf8 -*-
 
-import os
-
+from pages.advanced_element import AdvancedWebElement
 from pages.base import WebPage
 from pages.elements import WebElement
 from pages.elements import ManyWebElements
@@ -12,21 +11,31 @@ class MainPage(WebPage):
 
     def __init__(self, web_driver, url=''):
         if not url:
-            url = os.getenv("MAIN_URL") or 'https://market.yandex.ru/'
+            url = 'https://yandex.ru/'
 
         super().__init__(web_driver, url)
 
-    # Main search field
-    search = WebElement(id='header-search')
+    search = AdvancedWebElement(id='text')
 
-    # Search button
-    search_run_button = WebElement(xpath='//button[@type="submit"]')
+    suggest = WebElement(class_name='mini-suggest__popup_visible')
 
-    # Titles of the products in search results
-    products_titles = ManyWebElements(xpath='//a[contains(@href, "/product-") and @title!=""]')
+    table_results = WebElement(xpath='//*[@aria-label="Результаты поиска"]')
 
-    # Button to sort products by price
-    sort_products_by_price = WebElement(css_selector='button[data-autotest-id="dprice"]')
+    results_links = ManyWebElements(xpath='//*[@aria-label="Результаты поиска"]/li//div/div[1]/div[1]/a/b')
 
-    # Prices of the products in search results
-    products_prices = ManyWebElements(xpath='//div[@data-zone-name="price"]//span/*[1]')
+    images_link = WebElement(xpath='/html/body/div[1]/div[2]/div[3]/div/div[2]/nav/div/ul/li[3]/a')
+
+    category_images = WebElement(xpath='/html/body/div[3]/div[2]/div[1]/div/div/div[1]/a/div[2]')
+    category_search = WebElement(xpath='/html/body/header/div/div[1]/div[2]/form/div[1]/span/span/input')
+
+    firs_image = WebElement(class_name='serp-item__link')
+    firs_image_link = WebElement(xpath='/html/body/div[3]/div[2]/div[1]/div[1]/div/div[1]/div/a/img')
+
+    firs_image_link2 = WebElement(class_name='MMThumbImage-Image')
+
+    button_next = AdvancedWebElement(class_name='CircleButton_type_next')
+    button_prev = WebElement(class_name='CircleButton_type_prev')
+
+    full_image = AdvancedWebElement(class_name='MMImage-Preview')
+
+#python -m pytest -v --driver Chrome --driver-path ~/chrome tests/test_smoke_yandex.py

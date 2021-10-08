@@ -7,7 +7,7 @@
 import pytest
 import allure
 import uuid
-
+from selenium import webdriver
 
 
 @pytest.fixture
@@ -32,7 +32,9 @@ def pytest_runtest_makereport(item, call):
 
 
 @pytest.fixture
-def web_browser(request, selenium):
+def web_browser(request, selenium  \
+        #= webdriver.Chrome()
+                ):
 
     browser = selenium
     browser.set_window_size(1400, 1000)
